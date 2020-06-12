@@ -1,6 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const mongoSanitize = require('express-mongo-sanitize');
+const compression = require('compression');
+const xss = require('xss-clean');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controller/errorController');
@@ -13,8 +17,16 @@ const readingRouter = require('./routes/readingRoutes');
 const app = express();
 
 // Global middlewares
-app.use(morgan('dev'));
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+app.use(cors());
+app.options('*', cors());
 
+app.use(mongoSanitize());
+app.use(xss());
+
+app.use(compression());
 // body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ inflate: true, extended: true }));
