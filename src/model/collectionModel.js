@@ -4,7 +4,6 @@ const collectionSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please provide sub-meter group/collection name'],
-    unique: [true, 'Collection Name already exist...'],
   },
   divisionCount: {
     type: Number,

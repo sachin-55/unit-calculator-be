@@ -1,6 +1,7 @@
 import Submeter from '../model/submeterModel';
 import catchAsync from '../utils/catchAsync';
 import FilterFeatures from '../utils/filterFeatures';
+import AppError from '../utils/appError';
 
 exports.getSubmeters = catchAsync(async (req, res, next) => {
   const filter = {};
@@ -27,5 +28,25 @@ exports.createSubmeter = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     submeter,
+  });
+});
+
+exports.updateSubmeter = catchAsync(async (req, res, next) => {
+  const submeter = await Submeter.findByIdAndUpdate(
+    req.params.submeterId,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!submeter) {
+    return next(new AppError('No document Found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: submeter,
   });
 });

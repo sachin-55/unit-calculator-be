@@ -1,6 +1,7 @@
 import Collection from '../model/collectionModel';
 import catchAsync from '../utils/catchAsync';
 import FilterFeatures from '../utils/filterFeatures';
+import AppError from '../utils/appError';
 
 exports.getCollections = catchAsync(async (req, res, next) => {
   const filter = {};
@@ -32,6 +33,26 @@ exports.createCollection = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    collection,
+    collection: newCollection,
+  });
+});
+
+exports.updateCollection = catchAsync(async (req, res, next) => {
+  const collect = await Collection.findByIdAndUpdate(
+    req.params.collectionId,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!collect) {
+    return next(new AppError('No document Found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: collect,
   });
 });

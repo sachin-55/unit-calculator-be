@@ -17,9 +17,9 @@ const readingRouter = require('./routes/readingRoutes');
 const app = express();
 
 // Global middlewares
-if (process.env.NODE_ENV === 'development') {
+//if (!process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
-}
+//}
 app.use(cors());
 app.options('*', cors());
 

@@ -9,4 +9,7 @@ router
   .get(readingsController.getReadings)
   .post(authController.protect, readingsController.createReading);
 
+router
+  .route('/:readingsId')
+  .patch(authController.protect, readingsController.updateReadings);
 module.exports = router;
