@@ -23,7 +23,6 @@ exports.createCollection = catchAsync(async (req, res, next) => {
     name: req.body.name,
     user: req.body.user,
     divisionCount: req.body.divisionCount,
-    submeters: req.body.submeters,
   });
 
   const newCollection = await collection

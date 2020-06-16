@@ -21,13 +21,14 @@ exports.getSubmeters = catchAsync(async (req, res, next) => {
 exports.createSubmeter = catchAsync(async (req, res, next) => {
   const submeter = await Submeter.create({
     name: req.body.name,
+    collectionId: req.body.collectionId,
   });
 
-  // const newSubmeter = await submeter.populate('collectionId').execPopulate();
+  const newSubmeter = await submeter.populate('collectionId').execPopulate();
 
   res.status(200).json({
     status: 'success',
-    submeter,
+    submeter: newSubmeter,
   });
 });
 

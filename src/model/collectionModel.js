@@ -9,12 +9,6 @@ const collectionSchema = new mongoose.Schema({
     type: Number,
     default: 2,
   },
-  submeters: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Submeter',
-    },
-  ],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -24,9 +18,6 @@ const collectionSchema = new mongoose.Schema({
 
 collectionSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'submeters',
-    select: 'name',
-  }).populate({
     path: 'user',
     select: 'name email photo',
   });
