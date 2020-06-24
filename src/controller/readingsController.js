@@ -20,20 +20,34 @@ exports.getReadings = catchAsync(async (req, res, next) => {
   });
 });
 exports.createReading = catchAsync(async (req, res, next) => {
-  const reading = await Readings.create({
+  const uniqData = await Readings.find({
     submeter: req.body.submeter,
     readingsYear: req.body.readingsYear,
     readingsMonth: req.body.readingsMonth,
-    readings: req.body.readings,
-    unitPrice: req.body.unitPrice,
   });
+  if (uniqData.length === 0) {
+    const reading = await Readings.create({
+      submeter: req.body.submeter,
+      readingsYear: req.body.readingsYear,
+      readingsMonth: req.body.readingsMonth,
+      readings: req.body.readings,
+      unitPrice: req.body.unitPrice,
+    });
 
-  // const newReading = await reading.populate('submeter').execPopulate();
+    // const newReading = await reading.populate('submeter').execPopulate();
 
-  res.status(200).json({
-    status: 'success',
-    reading,
-  });
+    res.status(200).json({
+      status: 'success',
+      reading,
+    });
+  } else {
+    return next(
+      new AppError(
+        `Readings of date ${req.body.readingsYear}-${req.body.readingsMonth} already exists`,
+        403
+      )
+    );
+  }
 });
 
 exports.updateReadings = catchAsync(async (req, res, next) => {
