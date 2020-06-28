@@ -10,5 +10,6 @@ router
   .post(authController.protect, collectionController.createCollection);
 router
   .route('/:collectionId')
-  .patch(authController.protect, collectionController.updateCollection);
+  .patch(authController.protect, collectionController.updateCollection)
+  .delete(authController.protect, collectionController.deleteCollection);
 module.exports = router;

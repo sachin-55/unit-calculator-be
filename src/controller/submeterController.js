@@ -51,3 +51,16 @@ exports.updateSubmeter = catchAsync(async (req, res, next) => {
     data: submeter,
   });
 });
+
+exports.deleteSubmeter = catchAsync(async (req, res, next) => {
+  const submeter = await Submeter.findByIdAndDelete(req.params.submeterId);
+
+  if (!submeter) {
+    return next(new AppError('No document Found with that ID', 404));
+  }
+
+  res.status(204).json({
+    status: 'success',
+    message: 'Submeter deleted Successfully',
+  });
+});

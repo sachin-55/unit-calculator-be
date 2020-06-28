@@ -69,3 +69,16 @@ exports.updateReadings = catchAsync(async (req, res, next) => {
     data: readings,
   });
 });
+
+exports.deleteReadings = catchAsync(async (req, res, next) => {
+  const reading = await Readings.findByIdAndDelete(req.params.readingsId);
+
+  if (!reading) {
+    return next(new AppError('No document Found with that ID', 404));
+  }
+
+  res.status(204).json({
+    status: 'success',
+    message: 'Readings deleted Successfully',
+  });
+});

@@ -55,3 +55,16 @@ exports.updateCollection = catchAsync(async (req, res, next) => {
     data: collect,
   });
 });
+
+exports.deleteCollection = catchAsync(async (req, res, next) => {
+  const collect = await Collection.findByIdAndDelete(req.params.collectionId);
+
+  if (!collect) {
+    return next(new AppError('No document Found with that ID', 404));
+  }
+
+  res.status(204).json({
+    status: 'success',
+    message: 'Readings deleted Successfully',
+  });
+});

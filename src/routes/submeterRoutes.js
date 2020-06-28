@@ -11,6 +11,7 @@ router
 
 router
   .route('/:submeterId')
-  .patch(authController.protect, submeterController.updateSubmeter);
+  .patch(authController.protect, submeterController.updateSubmeter)
+  .delete(authController.protect, submeterController.deleteSubmeter);
 
 module.exports = router;

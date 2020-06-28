@@ -11,5 +11,7 @@ router
 
 router
   .route('/:readingsId')
-  .patch(authController.protect, readingsController.updateReadings);
+  .patch(authController.protect, readingsController.updateReadings)
+  .delete(authController.protect, readingsController.deleteReadings);
+
 module.exports = router;
